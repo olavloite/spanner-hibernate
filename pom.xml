@@ -10,7 +10,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>nl.topicus</groupId>
 	<artifactId>spanner-hibernate</artifactId>
-	<version>5.0.11.Final-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
 	<name>spanner-hibernate</name>
 	<description>Hibernate library for Google Cloud Spanner</description>
 	<url>https://github.com/olavloite/spanner-hibernate</url>
@@ -41,6 +41,7 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>5.0.11.Final</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
