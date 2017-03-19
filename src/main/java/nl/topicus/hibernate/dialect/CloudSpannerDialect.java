@@ -25,7 +25,7 @@ public class CloudSpannerDialect extends Dialect
 		registerColumnType(Types.TINYINT, "INT64");
 		registerColumnType(Types.INTEGER, "INT64");
 		registerColumnType(Types.CHAR, "STRING(1)");
-		registerColumnType(Types.VARCHAR, "STRING($l)");
+		registerColumnType(Types.VARCHAR, "STRING($1)");
 		registerColumnType(Types.FLOAT, "FLOAT64");
 		registerColumnType(Types.DOUBLE, "FLOAT64");
 		registerColumnType(Types.DECIMAL, "FLOAT64");
