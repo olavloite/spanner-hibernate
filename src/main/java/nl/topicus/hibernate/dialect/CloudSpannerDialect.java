@@ -25,19 +25,19 @@ public class CloudSpannerDialect extends Dialect
 		registerColumnType(Types.TINYINT, "INT64");
 		registerColumnType(Types.INTEGER, "INT64");
 		registerColumnType(Types.CHAR, "STRING(1)");
-		registerColumnType(Types.VARCHAR, "STRING($1)");
+		registerColumnType(Types.VARCHAR, "STRING($l)");
 		registerColumnType(Types.FLOAT, "FLOAT64");
 		registerColumnType(Types.DOUBLE, "FLOAT64");
 		registerColumnType(Types.DECIMAL, "FLOAT64");
 		registerColumnType(Types.DATE, "DATE");
 		registerColumnType(Types.TIME, "TIMESTAMP");
 		registerColumnType(Types.TIMESTAMP, "TIMESTAMP");
-		registerColumnType(Types.VARBINARY, "BYTES($1)");
-		registerColumnType(Types.BINARY, "BYTES($1)");
-		registerColumnType(Types.LONGVARCHAR, "STRING($1)");
-		registerColumnType(Types.LONGVARBINARY, "BYTES($1)");
-		registerColumnType(Types.CLOB, "STRING($1)");
-		registerColumnType(Types.BLOB, "BYTES($1)");
+		registerColumnType(Types.VARBINARY, "BYTES($l)");
+		registerColumnType(Types.BINARY, "BYTES($l)");
+		registerColumnType(Types.LONGVARCHAR, "STRING($l)");
+		registerColumnType(Types.LONGVARBINARY, "BYTES($l)");
+		registerColumnType(Types.CLOB, "STRING($l)");
+		registerColumnType(Types.BLOB, "BYTES($l)");
 		registerColumnType(Types.NUMERIC, "FLOAT64");
 	}
 
