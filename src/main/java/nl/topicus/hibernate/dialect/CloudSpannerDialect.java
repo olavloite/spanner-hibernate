@@ -4,6 +4,10 @@ import java.sql.Types;
 
 import org.hibernate.boot.Metadata;
 import org.hibernate.dialect.Dialect;
+import org.hibernate.dialect.pagination.AbstractLimitHandler;
+import org.hibernate.dialect.pagination.LimitHandler;
+import org.hibernate.dialect.pagination.LimitHelper;
+import org.hibernate.engine.spi.RowSelection;
 import org.hibernate.mapping.ForeignKey;
 import org.hibernate.tool.schema.spi.Exporter;
 
@@ -15,6 +19,27 @@ import org.hibernate.tool.schema.spi.Exporter;
  */
 public class CloudSpannerDialect extends Dialect
 {
+	private static final AbstractLimitHandler LIMIT_HANDLER = new AbstractLimitHandler()
+	{
+		@Override
+		public String processSql(String sql, RowSelection selection)
+		{
+			final boolean hasOffset = LimitHelper.hasFirstRow(selection);
+			return sql + (hasOffset ? " limit ? offset ?" : " limit ?");
+		}
+
+		@Override
+		public boolean supportsLimit()
+		{
+			return true;
+		}
+
+		@Override
+		public boolean bindLimitParametersInReverseOrder()
+		{
+			return true;
+		}
+	};
 
 	public CloudSpannerDialect()
 	{
@@ -76,6 +101,30 @@ public class CloudSpannerDialect extends Dialect
 	public Exporter<ForeignKey> getForeignKeyExporter()
 	{
 		return foreignKeyExporter;
+	}
+
+	@Override
+	public boolean canCreateSchema()
+	{
+		return false;
+	}
+
+	@Override
+	public LimitHandler getLimitHandler()
+	{
+		return LIMIT_HANDLER;
+	}
+
+	@Override
+	public String getLimitString(String sql, boolean hasOffset)
+	{
+		return sql + (hasOffset ? " limit ? offset ?" : " limit ?");
+	}
+
+	@Override
+	public boolean bindLimitParametersInReverseOrder()
+	{
+		return true;
 	}
 
 }
