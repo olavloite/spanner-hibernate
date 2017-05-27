@@ -7,6 +7,7 @@ import org.hibernate.dialect.Dialect;
 import org.hibernate.dialect.pagination.AbstractLimitHandler;
 import org.hibernate.dialect.pagination.LimitHandler;
 import org.hibernate.dialect.pagination.LimitHelper;
+import org.hibernate.dialect.unique.UniqueDelegate;
 import org.hibernate.engine.spi.RowSelection;
 import org.hibernate.mapping.ForeignKey;
 import org.hibernate.tool.schema.spi.Exporter;
@@ -41,6 +42,8 @@ public class CloudSpannerDialect extends Dialect
 		}
 	};
 
+	private final UniqueDelegate uniqueDelegate;
+
 	public CloudSpannerDialect()
 	{
 		registerColumnType(Types.BOOLEAN, "BOOL");
@@ -64,6 +67,14 @@ public class CloudSpannerDialect extends Dialect
 		registerColumnType(Types.CLOB, "STRING($l)");
 		registerColumnType(Types.BLOB, "BYTES($l)");
 		registerColumnType(Types.NUMERIC, "FLOAT64");
+
+		uniqueDelegate = new CloudSpannerUniqueDelegate(this);
+	}
+
+	@Override
+	public UniqueDelegate getUniqueDelegate()
+	{
+		return uniqueDelegate;
 	}
 
 	@Override
@@ -123,6 +134,12 @@ public class CloudSpannerDialect extends Dialect
 
 	@Override
 	public boolean bindLimitParametersInReverseOrder()
+	{
+		return true;
+	}
+
+	@Override
+	public boolean supportsUnionAll()
 	{
 		return true;
 	}
