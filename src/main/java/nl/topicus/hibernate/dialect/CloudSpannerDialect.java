@@ -1,5 +1,7 @@
 package nl.topicus.hibernate.dialect;
 
+import java.sql.DatabaseMetaData;
+import java.sql.SQLException;
 import java.sql.Types;
 
 import org.hibernate.boot.Metadata;
@@ -8,6 +10,8 @@ import org.hibernate.dialect.pagination.AbstractLimitHandler;
 import org.hibernate.dialect.pagination.LimitHandler;
 import org.hibernate.dialect.pagination.LimitHelper;
 import org.hibernate.dialect.unique.UniqueDelegate;
+import org.hibernate.engine.jdbc.env.spi.IdentifierHelper;
+import org.hibernate.engine.jdbc.env.spi.IdentifierHelperBuilder;
 import org.hibernate.engine.spi.RowSelection;
 import org.hibernate.mapping.ForeignKey;
 import org.hibernate.tool.schema.spi.Exporter;
@@ -44,6 +48,8 @@ public class CloudSpannerDialect extends Dialect
 
 	private final UniqueDelegate uniqueDelegate;
 
+	private DatabaseMetaData metadata;
+
 	public CloudSpannerDialect()
 	{
 		registerColumnType(Types.BOOLEAN, "BOOL");
@@ -69,6 +75,16 @@ public class CloudSpannerDialect extends Dialect
 		registerColumnType(Types.NUMERIC, "FLOAT64");
 
 		uniqueDelegate = new CloudSpannerUniqueDelegate(this);
+	}
+
+	@Override
+	public IdentifierHelper buildIdentifierHelper(IdentifierHelperBuilder builder, DatabaseMetaData dbMetaData)
+			throws SQLException
+	{
+		// only override this method in order to be able to access the database
+		// metadata
+		this.metadata = dbMetaData;
+		return super.buildIdentifierHelper(builder, dbMetaData);
 	}
 
 	@Override
@@ -142,6 +158,11 @@ public class CloudSpannerDialect extends Dialect
 	public boolean supportsUnionAll()
 	{
 		return true;
+	}
+
+	DatabaseMetaData getMetadata()
+	{
+		return metadata;
 	}
 
 }
