@@ -14,6 +14,8 @@ import org.hibernate.engine.jdbc.env.spi.IdentifierHelper;
 import org.hibernate.engine.jdbc.env.spi.IdentifierHelperBuilder;
 import org.hibernate.engine.spi.RowSelection;
 import org.hibernate.mapping.ForeignKey;
+import org.hibernate.mapping.Table;
+import org.hibernate.tool.schema.internal.StandardTableExporter;
 import org.hibernate.tool.schema.spi.Exporter;
 
 /**
@@ -128,6 +130,14 @@ public class CloudSpannerDialect extends Dialect
 	public Exporter<ForeignKey> getForeignKeyExporter()
 	{
 		return foreignKeyExporter;
+	}
+
+	private StandardTableExporter tableExporter = new CloudSpannerTableExporter(this);
+
+	@Override
+	public Exporter<Table> getTableExporter()
+	{
+		return tableExporter;
 	}
 
 	@Override
