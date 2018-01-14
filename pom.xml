@@ -9,7 +9,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>nl.topicus</groupId>
 	<artifactId>spanner-hibernate</artifactId>
-	<version>0.5-SNAPSHOT</version>
+	<version>0.5</version>
 	<name>spanner-hibernate</name>
 	<description>Hibernate library for Google Cloud Spanner</description>
 	<url>https://github.com/olavloite/spanner-hibernate</url>
@@ -32,7 +32,7 @@
 		<connection>scm:git:git://github.com/olavloite/spanner-hibernate.git</connection>
 		<developerConnection>scm:git:git@github.com:olavloite/spanner-hibernate.git</developerConnection>
 		<url>https://github.com/olavloite/spanner-hibernate</url>
-		<tag>HEAD</tag>
+		<tag>spanner-hibernate-0.5</tag>
 	</scm>
 
 	<dependencies>
