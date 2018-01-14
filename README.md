@@ -12,3 +12,8 @@ Releases are available on Maven Central. Current release is version 0.4.
     		&lt;<span class="pl-ent">version</span>&gt;0.4&lt;/<span class="pl-ent">version</span>&gt;
 	&lt;/<span class="pl-ent">dependency</span>&gt;
 </pre></div>
+
+## Generating schema
+The dialect supports the automatic generation of the required schema from the metamodel. Executing DDL statements on Google Cloud Spanner can be relatively slow. In order to speed this up, the JDBC driver of Google Cloud Spanner supports automatic batching of DDL statements. This dialect can utilize this functionality of the JDBC driver by setting a custom SchemaManagementTool like this:
+
+`hibernate.schema_management_tool=nl.topicus.hibernate.dialect.CloudSpannerSchemaManagementTool`
