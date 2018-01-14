@@ -20,7 +20,7 @@ public class CloudSpannerSchemaManagementTool extends HibernateSchemaManagementT
 	@Override
 	public SchemaCreator getSchemaCreator(@SuppressWarnings("rawtypes") Map options)
 	{
-		CloudSpannerSchemaHandler handler = new CloudSpannerSchemaHandler(super.getSchemaCreator(options));
+		CloudSpannerSchemaHandler handler = new CloudSpannerSchemaHandler(super.getSchemaCreator(options), false);
 		return (SchemaCreator) Proxy.newProxyInstance(getClass().getClassLoader(), new Class[] { SchemaCreator.class },
 				handler);
 	}
@@ -28,7 +28,7 @@ public class CloudSpannerSchemaManagementTool extends HibernateSchemaManagementT
 	@Override
 	public SchemaMigrator getSchemaMigrator(@SuppressWarnings("rawtypes") Map options)
 	{
-		CloudSpannerSchemaHandler handler = new CloudSpannerSchemaHandler(super.getSchemaMigrator(options));
+		CloudSpannerSchemaHandler handler = new CloudSpannerSchemaHandler(super.getSchemaMigrator(options), true);
 		return (SchemaMigrator) Proxy.newProxyInstance(getClass().getClassLoader(),
 				new Class[] { SchemaMigrator.class }, handler);
 	}
@@ -38,7 +38,7 @@ public class CloudSpannerSchemaManagementTool extends HibernateSchemaManagementT
 	@Override
 	public SchemaDropper getSchemaDropper(@SuppressWarnings("rawtypes") Map options)
 	{
-		CloudSpannerSchemaHandler handler = new CloudSpannerSchemaHandler(super.getSchemaDropper(options));
+		CloudSpannerSchemaHandler handler = new CloudSpannerSchemaHandler(super.getSchemaDropper(options), false);
 		return (SchemaDropper) Proxy.newProxyInstance(getClass().getClassLoader(), new Class[] { SchemaDropper.class },
 				handler);
 	}

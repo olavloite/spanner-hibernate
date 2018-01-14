@@ -31,7 +31,7 @@ class CloudSpannerSchemaHandler implements InvocationHandler
 
 	private static final String EXECUTE_AND_RESET_AUTO_BATCH_EXPORT_IDENTIFIER = "EXECUTE_AND_RESET_AUTO_BATCH_DDL";
 
-	private static final class SetAutoBatch implements AuxiliaryDatabaseObject
+	private final class SetAutoBatch implements AuxiliaryDatabaseObject
 	{
 		private static final long serialVersionUID = 1L;
 
@@ -50,9 +50,7 @@ class CloudSpannerSchemaHandler implements InvocationHandler
 		@Override
 		public boolean beforeTablesOnCreation()
 		{
-			// Return true in order to get this object to be executed BEFORE
-			// the drop
-			return true;
+			return !isMigration;
 		}
 
 		@Override
@@ -69,7 +67,7 @@ class CloudSpannerSchemaHandler implements InvocationHandler
 
 	}
 
-	private static final class ExecuteAndResetAutoBatch implements AuxiliaryDatabaseObject
+	private final class ExecuteAndResetAutoBatch implements AuxiliaryDatabaseObject
 	{
 		private static final long serialVersionUID = 1L;
 
@@ -88,9 +86,7 @@ class CloudSpannerSchemaHandler implements InvocationHandler
 		@Override
 		public boolean beforeTablesOnCreation()
 		{
-			// Return false in order to get this object to be executed AFTER the
-			// drop
-			return false;
+			return isMigration;
 		}
 
 		@Override
@@ -107,15 +103,18 @@ class CloudSpannerSchemaHandler implements InvocationHandler
 
 	}
 
-	private static final SetAutoBatch SET = new SetAutoBatch();
+	private final SetAutoBatch SET = new SetAutoBatch();
 
-	private static final ExecuteAndResetAutoBatch WAIT = new ExecuteAndResetAutoBatch();
+	private final ExecuteAndResetAutoBatch WAIT = new ExecuteAndResetAutoBatch();
 
 	private final Object delegate;
 
-	CloudSpannerSchemaHandler(Object delegate)
+	private final boolean isMigration;
+
+	CloudSpannerSchemaHandler(Object delegate, boolean isMigration)
 	{
 		this.delegate = delegate;
+		this.isMigration = isMigration;
 	}
 
 	@Override
