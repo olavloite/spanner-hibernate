@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 
 import org.hibernate.boot.Metadata;
 import org.hibernate.dialect.unique.DefaultUniqueDelegate;
+import org.hibernate.engine.config.spi.ConfigurationService;
+import org.hibernate.engine.config.spi.StandardConverters;
 import org.hibernate.mapping.UniqueKey;
 
 public class CloudSpannerUniqueDelegate extends DefaultUniqueDelegate
@@ -81,6 +83,12 @@ public class CloudSpannerUniqueDelegate extends DefaultUniqueDelegate
 			}
 			return null;
 		}
+
+		public void removeIndex(UniqueKey uniqueKey)
+		{
+			String key = uniqueKey.getTable().getName() + "." + uniqueKey.getName();
+			map.remove(key);
+		}
 	}
 
 	private UniqueIndices indices;
@@ -119,6 +127,21 @@ public class CloudSpannerUniqueDelegate extends DefaultUniqueDelegate
 	@Override
 	public String getAlterTableToAddUniqueKeyCommand(UniqueKey uniqueKey, Metadata metadata)
 	{
+		ConfigurationService config = metadata.getDatabase().getBuildingOptions().getServiceRegistry()
+				.getService(ConfigurationService.class);
+		if (config != null)
+		{
+			String value = config.getSetting("hibernate.hbm2ddl.auto", StandardConverters.STRING);
+			if (!value.equalsIgnoreCase("update"))
+			{
+				// We should only check whether it is already present in an
+				// update scenario, in all other scenarios, just return the
+				// actual create statement.
+				return org.hibernate.mapping.Index.buildSqlCreateIndexString(dialect, uniqueKey.getName(),
+						uniqueKey.getTable(), uniqueKey.columnIterator(), uniqueKey.getColumnOrderMap(), true,
+						metadata);
+			}
+		}
 		// First check that this unique key is not already present, as this is a
 		// lot faster than trying to create it and then fail.
 		initIndices();
@@ -142,8 +165,11 @@ public class CloudSpannerUniqueDelegate extends DefaultUniqueDelegate
 		{
 			return null;
 		}
+		// Remove from cache
+		indices.removeIndex(uniqueKey);
 		final StringBuilder buf = new StringBuilder("DROP INDEX ");
 		buf.append(dialect.quote(uniqueKey.getName()));
+
 		return buf.toString();
 	}
 
