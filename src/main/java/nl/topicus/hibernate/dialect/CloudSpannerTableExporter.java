@@ -48,6 +48,8 @@ public class CloudSpannerTableExporter extends StandardTableExporter
 
 	private boolean tableExists(Table table)
 	{
+		if (dialect.getMetadata() == null)
+			return false;
 		boolean exists = true;
 		try (ResultSet tables = dialect.getMetadata().getTables(table.getCatalog(), table.getSchema(), table.getName(),
 				null))
@@ -64,6 +66,8 @@ public class CloudSpannerTableExporter extends StandardTableExporter
 	private Set<String> getIndicesExcludingPK(Table table)
 	{
 		Set<String> res = new HashSet<>();
+		if (dialect.getMetadata() == null)
+			return res;
 		try (ResultSet indices = dialect.getMetadata().getIndexInfo(table.getCatalog(), table.getSchema(),
 				table.getName(), false, false))
 		{
