@@ -3,7 +3,7 @@ Hibernate Dialect for Google Cloud Spanner
 
 Use this Dialect in combination with my Google Cloud Spanner JDBC Driver (spanner-jdbc, https://github.com/olavloite/spanner-jdbc) if you want to develop applications using JPA/Hibernate and Google Cloud Spanner.
 
-Releases are available on Maven Central. Current release is version 0.6.
+Releases are available on Maven Central. Current release is version 0.7.
 
 <div class="highlight highlight-text-xml"><pre>
 	&lt;<span class="pl-ent">dependency</span>&gt;
