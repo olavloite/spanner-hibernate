@@ -127,7 +127,7 @@ public class CloudSpannerUniqueDelegate extends DefaultUniqueDelegate
 	@Override
 	public String getAlterTableToAddUniqueKeyCommand(UniqueKey uniqueKey, Metadata metadata)
 	{
-		ConfigurationService config = metadata.getDatabase().getBuildingOptions().getServiceRegistry()
+		ConfigurationService config = metadata.getDatabase().getServiceRegistry()
 				.getService(ConfigurationService.class);
 		if (config != null)
 		{
