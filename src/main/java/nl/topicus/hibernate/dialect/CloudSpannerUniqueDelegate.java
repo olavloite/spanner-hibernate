@@ -132,7 +132,7 @@ public class CloudSpannerUniqueDelegate extends DefaultUniqueDelegate
 		if (config != null)
 		{
 			String value = config.getSetting("hibernate.hbm2ddl.auto", StandardConverters.STRING);
-			if (!value.equalsIgnoreCase("update"))
+			if (value != null && !value.equalsIgnoreCase("update"))
 			{
 				// We should only check whether it is already present in an
 				// update scenario, in all other scenarios, just return the
