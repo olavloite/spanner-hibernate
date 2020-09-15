@@ -1,7 +1,12 @@
-# spanner-hibernate
+# DEPRECATED
+This project is no longer actively maintained.
+
+It is recommended to use the officially supported Hibernate dialect that can be found at https://github.com/GoogleCloudPlatform/google-cloud-spanner-hibernate in combination with the offically supported open source JDBC driver found at https://github.com/googleapis/java-spanner-jdbc.
+
+## spanner-hibernate
 Hibernate Dialect for Google Cloud Spanner
 
-Use this Dialect in combination with my Google Cloud Spanner JDBC Driver (spanner-jdbc, https://github.com/olavloite/spanner-jdbc) if you want to develop applications using JPA/Hibernate and Google Cloud Spanner.
+This dialect can be used in combination with the community open source JDBC Driver for Google Cloud Spanner (spanner-jdbc, https://github.com/olavloite/spanner-jdbc).
 
 Releases are available on Maven Central. Current release is version 0.8.
 
